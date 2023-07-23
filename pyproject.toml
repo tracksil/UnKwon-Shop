@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "vitocar-auto"
+version = "0.1.0"
+description = ""
+authors = ["Popovici Cristian <popovici.cristi.pc@gmail.com>"]
+readme = "README.md"
+packages = [{include = "vitocar_auto"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^4.2.3"
+django-environ = "^0.10.0"
+drf-util = "^1.0.17"
+django-extensions = "^3.2.3"
+drf-yasg = "^1.21.7"
+django-cors-headers = "^4.2.0"
+swagger-spec-validator = "^3.0.3"
+djangorestframework-simplejwt = "^5.2.2"
+django-modeltranslation = "^0.18.11"
+djangorestframework = "^3.14.0"
+psycopg2 = "^2.9.6"
+django-utils-six = "^2.0"
+django-filter = "^23.2"
+pre-commit = "^3.3.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
