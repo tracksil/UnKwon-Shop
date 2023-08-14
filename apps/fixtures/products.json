@@ -1,0 +1,22 @@
+[
+    {
+        "model": "products.product",
+        "pk": 1,
+        "fields": {
+            "name": "Product 1",
+            "sku": "PR000000000001",
+            "price": "10.00",
+            "description": "Description 1"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": 2,
+        "fields": {
+            "name": "Product 2",
+            "sku": "PR000000000002",
+            "price": "15.00",
+            "description": "Description 2"
+        }
+    }
+]

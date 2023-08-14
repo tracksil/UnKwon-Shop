@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  web:
+    build: ..
+    restart: "on-failure"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ../:/code
+  db:
+    image: postgres:latest
+    restart: "on-failure"
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: ${SQL_HOST}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
+
+volumes:
+  postgres_data:

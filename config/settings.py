@@ -1,8 +1,7 @@
 import os
+from datetime import timedelta
 from pathlib import Path
-
 import environ
-from drf_util.utils import get_applications
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,8 +25,8 @@ ALLOWED_HOSTS = ["*"]
 DJANGO_APPS = [
     "django_extensions",
     "django.contrib.sessions",
-    "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.auth",
     "django.contrib.staticfiles",
     "django.contrib.postgres",
 ]
@@ -38,7 +37,12 @@ SECOND_PART_APPS = [
     "corsheaders",  # noqa
 ]
 
-BASE_APPS = get_applications()
+BASE_APPS = [
+    "apps.common",
+    "apps.users",
+    "apps.products",
+    "apps.wish_list",
+]
 
 INSTALLED_APPS = DJANGO_APPS + SECOND_PART_APPS + BASE_APPS
 
@@ -83,6 +87,36 @@ DATABASES = {
     },
 }
 
+AUTHENTICATION_BACKENDS = ["apps.users.backend.EmailBackend"]
+
+REST_FRAMEWORK = {
+    "PAGE_SIZE": 10,
+    "DEFAULT_PAGINATION_CLASS": "drf_util.pagination.CustomPagination",
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+    "DEFAULT_FILTER_BACKENDS": (
+        "drf_util.filters.CustomFilterBackend",
+        "drf_util.filters.CustomOrderingFilter",
+        "rest_framework.filters.SearchFilter",
+    ),
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
+    "AUTH_HEADER_TYPES": ("Bearer", "Token"),
+}
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    },
+    "DEFAULT_AUTO_SCHEMA_CLASS": "drf_util.mixins.CustomAutoSchema",
+}
+
+FIXTURE_DIRS = ("fixtures/",)
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -100,3 +134,11 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_USE_TLS = env("EMAIL_USE_TLS", default=False)
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = env("EMAIL_PORT", default=587) or 587
+
+AUTH_USER_MODEL = "users.User"

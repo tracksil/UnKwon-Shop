@@ -1,0 +1,42 @@
+[
+  {
+    "model": "wish_list.wishlist",
+    "pk": 1,
+    "fields": {
+      "name": "Wishlist 1",
+      "user": 1
+    }
+  },
+  {
+    "model": "wish_list.wishlist",
+    "pk": 2,
+    "fields": {
+      "name": "Wishlist 2",
+      "user": 2
+    }
+  },
+  {
+    "model": "wish_list.wishlistproducts",
+    "pk": 1,
+    "fields": {
+      "wish_list": 1,
+      "product": 1
+    }
+  },
+  {
+    "model": "wish_list.wishlistproducts",
+    "pk": 2,
+    "fields": {
+      "wish_list": 1,
+      "product": 2
+    }
+  },
+  {
+    "model": "wish_list.wishlistproducts",
+    "pk": 3,
+    "fields": {
+      "wish_list": 2,
+      "product": 2
+    }
+  }
+]
